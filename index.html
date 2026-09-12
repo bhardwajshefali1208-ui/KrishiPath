@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0c241b">
+  <title>KrishiPath — Smart Procurement Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="noise"></div>
+  <div id="toast" class="toast"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home">
+      <span class="brand-mark"><span></span><span></span><span></span></span>
+      <span>KrishiPath</span>
+    </a>
+    <nav>
+      <a href="#journey" data-i18n="navJourney">Journey</a>
+      <a href="#procurement" data-i18n="navProcurement">Procurement</a>
+      <a href="#queue" data-i18n="navQueue">Live Queue</a>
+      <a href="#track" data-i18n="navTrack">Track</a>
+    </nav>
+    <div class="top-actions">
+      <button class="lang-switch" id="langBtn">हिन्दी</button>
+      <button class="primary-btn small" onclick="startProcurement()" data-i18n="startJourney">Start Journey</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="pulse-dot"></span><span data-i18n="eyebrow">SMART PROCUREMENT NETWORK</span></div>
+        <h1><span data-i18n="heroA">Your harvest.</span><br><em data-i18n="heroB">Your slot.</em><br><span data-i18n="heroC">Your fair turn.</span></h1>
+        <p data-i18n="heroText">One connected journey from your field to procurement — with location-aware alerts, live queue movement and a digital token that travels with you.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" onclick="startProcurement()" data-i18n="begin">Begin procurement <span>↗</span></button>
+          <button class="ghost-btn" onclick="openTutorial()" data-i18n="tutorial">Watch how it works</button>
+        </div>
+        <div class="hero-proof">
+          <span><b>01</b><span data-i18n="proof1">GPS-aware centre</span></span>
+          <span><b>02</b><span data-i18n="proof2">10-slot buffer</span></span>
+          <span><b>03</b><span data-i18n="proof3">SMS-ready alerts</span></span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+        <div class="field-scene">
+          <div class="sun"></div>
+          <div class="field field-1"></div><div class="field field-2"></div><div class="field field-3"></div>
+          <div class="route-line"><i></i><i></i><i></i><i></i></div>
+          <div class="route-point p1">⌖</div>
+          <div class="route-point p2">◆</div>
+          <div class="route-point p3">✓</div>
+          <div class="floating-card farmer-card">
+            <small data-i18n="fieldNode">FIELD NODE</small>
+            <strong id="heroLocation">Awaiting location</strong>
+            <span><span class="mini-dot"></span><span data-i18n="gpsReady">GPS ready</span></span>
+          </div>
+          <div class="floating-card token-card">
+            <small data-i18n="digitalToken">DIGITAL TOKEN</small>
+            <strong id="heroToken">— — —</strong>
+            <span data-i18n="tokenReady">Generated after booking</span>
+          </div>
+          <div class="floating-card queue-card">
+            <small data-i18n="queuePulse">QUEUE PULSE</small>
+            <strong id="heroQueue">—</strong>
+            <span data-i18n="waitingFarmers">farmers waiting</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="tutorial-strip">
+      <div class="tutorial-video" onclick="openTutorial()">
+        <div class="play">▶</div>
+        <div><strong data-i18n="guidedTour">A 2-minute guided tour</strong><span data-i18n="tourText">See the entire procurement journey before you start.</span></div>
+        <b>02:10</b>
+      </div>
+      <div class="feature-note"><span>✦</span><div><strong data-i18n="fairByDesign">Fair by design</strong><p data-i18n="fairText">Every movement is timestamped so the farmer always knows what happens next.</p></div></div>
+    </section>
+
+    <section class="journey-section" id="journey">
+      <div class="section-heading">
+        <div><span class="section-kicker">THE ROUTE</span><h2 data-i18n="journeyTitle">From field to fair turn.</h2></div>
+        <p data-i18n="journeyText">A single visual journey replaces confusing counters, queues and scattered updates.</p>
+      </div>
+      <div class="journey-map">
+        <div class="journey-path"></div>
+        <article class="journey-node n1"><b>01</b><span class="node-icon">♙</span><h3 data-i18n="j1">Register</h3><p data-i18n="j1p">Farmer profile</p></article>
+        <article class="journey-node n2"><b>02</b><span class="node-icon">⌖</span><h3 data-i18n="j2">Locate</h3><p data-i18n="j2p">Nearest centre</p></article>
+        <article class="journey-node n3"><b>03</b><span class="node-icon">▦</span><h3 data-i18n="j3">Crop</h3><p data-i18n="j3p">Details & quality</p></article>
+        <article class="journey-node n4"><b>04</b><span class="node-icon">◷</span><h3 data-i18n="j4">Schedule</h3><p data-i18n="j4p">Choose a slot</p></article>
+        <article class="journey-node n5"><b>05</b><span class="node-icon">◇</span><h3 data-i18n="j5">Token</h3><p data-i18n="j5p">Digital pass</p></article>
+        <article class="journey-node n6"><b>06</b><span class="node-icon">↗</span><h3 data-i18n="j6">Queue</h3><p data-i18n="j6p">Live movement</p></article>
+        <article class="journey-node n7"><b>07</b><span class="node-icon">◉</span><h3 data-i18n="j7">Arrive</h3><p data-i18n="j7p">Centre tracking</p></article>
+        <article class="journey-node n8"><b>08</b><span class="node-icon">✓</span><h3 data-i18n="j8">Confirm</h3><p data-i18n="j8p">QR completion</p></article>
+      </div>
+    </section>
+
+    <section class="procurement-shell" id="procurement">
+      <div class="section-heading">
+        <div><span class="section-kicker">PROCUREMENT CONTROL</span><h2 data-i18n="controlTitle">Build your journey.</h2></div>
+        <p data-i18n="controlText">Complete each stage once. KrishiPath carries the information forward.</p>
+      </div>
+
+      <div class="command-console">
+        <aside class="step-rail">
+          <div class="rail-top"><span>KP</span><div><small data-i18n="yourJourney">YOUR JOURNEY</small><strong id="stepCounter">01 / 06</strong></div></div>
+          <button class="step-link active" data-step="1"><i>01</i><span data-i18n="s1">Registration</span></button>
+          <button class="step-link" data-step="2"><i>02</i><span data-i18n="s2">Location</span></button>
+          <button class="step-link" data-step="3"><i>03</i><span data-i18n="s3">Centre</span></button>
+          <button class="step-link" data-step="4"><i>04</i><span data-i18n="s4">Crop details</span></button>
+          <button class="step-link" data-step="5"><i>05</i><span data-i18n="s5">Book slot</span></button>
+          <button class="step-link" data-step="6"><i>06</i><span data-i18n="s6">Token</span></button>
+          <div class="rail-bottom"><span class="sync-dot"></span><span data-i18n="secureFlow">Connected journey</span></div>
+        </aside>
+
+        <div class="wizard">
+          <div class="wizard-progress"><span id="wizardProgress"></span></div>
+
+          <div class="wizard-step active" id="step1">
+            <div class="wizard-head"><div><span class="step-label">01 — REGISTRATION</span><h3 data-i18n="regTitle">Tell us who is bringing the harvest.</h3></div><span class="big-step">01</span></div>
+            <p class="subtext" data-i18n="regText">Your details stay attached to this procurement journey.</p>
+            <div class="form-grid">
+              <label><span data-i18n="name">Farmer name</span><input id="farmerName" type="text" placeholder="Enter full name"></label>
+              <label><span data-i18n="mobile">Mobile number</span><input id="farmerMobile" type="tel" maxlength="10" placeholder="10-digit mobile number"></label>
+              <label><span data-i18n="aadhaar">Aadhaar number</span><input id="farmerAadhaar" type="text" maxlength="12" inputmode="numeric" placeholder="12-digit Aadhaar number"></label>
+              <label><span data-i18n="village">Village / locality</span><input id="farmerVillage" type="text" placeholder="Village or locality"></label>
+            </div>
+            <div class="info-banner"><span>✦</span><span data-i18n="privacy">Only the information needed for your procurement journey is collected.</span></div>
+            <div class="wizard-actions"><button class="primary-btn" onclick="nextStep()">Continue to location ↗</button></div>
+          </div>
+
+          <div class="wizard-step" id="step2">
+            <div class="wizard-head"><div><span class="step-label">02 — LOCATION</span><h3 data-i18n="locTitle">Let the route find your nearest centre.</h3></div><span class="big-step">02</span></div>
+            <p class="subtext" data-i18n="locText">Use live GPS to calculate the most suitable procurement centre.</p>
+            <div class="location-panel">
+              <div class="map-art"><div class="map-road r1"></div><div class="map-road r2"></div><div class="map-road r3"></div><div class="map-pin">⌖</div><div class="map-pulse"></div></div>
+              <div class="location-copy"><span class="status-pill" id="gpsStatus">GPS waiting</span><h4 id="locationResult">Location not detected</h4><p id="locationDescription">Your location will be used to estimate the nearest procurement centre and travel-aware notification time.</p><button class="primary-btn" id="gpsButton" onclick="detectLocation()" data-i18n="detect">Detect my location</button></div>
+            </div>
+            <div class="wizard-actions"><button class="ghost-btn" onclick="previousStep()">← Back</button><button class="primary-btn" onclick="nextStep()">Continue ↗</button></div>
+          </div>
+
+          <div class="wizard-step" id="step3">
+            <div class="wizard-head"><div><span class="step-label">03 — CENTRE</span><h3 data-i18n="centreTitle">Your closest procurement point.</h3></div><span class="big-step">03</span></div>
+            <p class="subtext" data-i18n="centreText">The route is selected using your location.</p>
+            <div class="centre-card">
+              <div class="centre-symbol">⌂</div><div class="centre-main"><span class="status-pill green">OPEN TODAY</span><h4 id="centreName">Greenfield Procurement Centre</h4><p id="centreAddress">Centre route will appear after GPS detection.</p><div class="centre-meta"><span>◷ 08:00–18:00</span><span>♧ Weighing available</span></div></div><div class="distance-box"><small>DISTANCE</small><strong id="centreDistance">—</strong><span id="travelTime">— travel</span></div></div>
+            <div class="notification-preview"><span class="notif-icon">⌁</span><div><small data-i18n="smartAlert">TRAVEL-AWARE ALERT</small><strong id="alertPreview">Notification timing will adapt to your distance.</strong></div></div>
+            <div class="wizard-actions"><button class="ghost-btn" onclick="previousStep()">← Back</button><button class="primary-btn" onclick="nextStep()">Choose crop ↗</button></div>
+          </div>
+
+          <div class="wizard-step" id="step4">
+            <div class="wizard-head"><div><span class="step-label">04 — CROP DETAILS</span><h3 data-i18n="cropTitle">What are you bringing today?</h3></div><span class="big-step">04</span></div>
+            <p class="subtext" data-i18n="cropText">Add crop and quantity so the centre can prepare for your arrival.</p>
+            <div class="form-grid">
+              <label><span data-i18n="crop">Crop</span><select id="crop"><option value="">Select crop</option><option>Wheat</option><option>Rice</option><option>Mustard</option><option>Maize</option><option>Barley</option><option>Millet</option></select></label>
+              <label><span data-i18n="quantity">Quantity</span><input id="quantity" type="number" min="1" step="0.1" placeholder="e.g. 25"></label>
+              <label><span data-i18n="unit">Unit</span><select id="unit"><option value="">Select unit</option><option>Quintal</option><option>Kg</option><option>Ton</option></select></label>
+              <div class="quality-field"><span data-i18n="quality">Quality</span><div class="quality-row"><button type="button" onclick="chooseQuality(this,'Standard')">Standard</button><button type="button" onclick="chooseQuality(this,'Premium')">Premium</button><button type="button" onclick="chooseQuality(this,'FAQ')">FAQ</button></div></div>
+            </div>
+            <div class="crop-preview"><div class="crop-orb">🌾</div><div><small>HARVEST PROFILE</small><strong id="cropPreview">Crop details will appear here</strong><p id="cropQuantityPreview">Quantity pending</p></div></div>
+            <div class="wizard-actions"><button class="ghost-btn" onclick="previousStep()">← Back</button><button class="primary-btn" onclick="nextStep()">View schedule ↗</button></div>
+          </div>
+
+          <div class="wizard-step" id="step5">
+            <div class="wizard-head"><div><span class="step-label">05 — SLOT BOOKING</span><h3 data-i18n="slotTitle">Pick the time that works for you.</h3></div><span class="big-step">05</span></div>
+            <p class="subtext" data-i18n="slotText">Ten slots stay active in the buffer. When one opens, the next farmer moves in automatically.</p>
+            <div class="schedule-grid">
+              <div class="date-column">
+                <small>NEXT AVAILABLE DATES</small>
+                <button class="date-card selected" onclick="selectDate(this,'18 Sep')"><b>18</b><span>SEP</span><em>Today</em></button>
+                <button class="date-card" onclick="selectDate(this,'19 Sep')"><b>19</b><span>SEP</span><em>Tomorrow</em></button>
+                <button class="date-card" onclick="selectDate(this,'20 Sep')"><b>20</b><span>SEP</span><em>Saturday</em></button>
+              </div>
+              <div class="slot-column"><small>AVAILABLE TIME SLOTS</small><div class="slots"><button class="time-slot selected" onclick="selectSlot(this,'08:40 AM')">08:40 AM</button><button class="time-slot" onclick="selectSlot(this,'09:20 AM')">09:20 AM</button><button class="time-slot" onclick="selectSlot(this,'10:00 AM')">10:00 AM</button><button class="time-slot" onclick="selectSlot(this,'10:40 AM')">10:40 AM</button><button class="time-slot" onclick="selectSlot(this,'11:20 AM')">11:20 AM</button><button class="time-slot" onclick="selectSlot(this,'12:00 PM')">12:00 PM</button><button class="time-slot" onclick="selectSlot(this,'02:00 PM')">02:00 PM</button><button class="time-slot" onclick="selectSlot(this,'02:40 PM')">02:40 PM</button><button class="time-slot" onclick="selectSlot(this,'03:20 PM')">03:20 PM</button><button class="time-slot" onclick="selectSlot(this,'04:00 PM')">04:00 PM</button></div><div class="buffer-line"><span>10/10</span><p>Dynamic buffer currently loaded</p><b>Next movement: automatic</b></div></div>
+            </div>
+            <div class="wizard-actions"><button class="ghost-btn" onclick="previousStep()">← Back</button><button class="primary-btn" onclick="nextStep()">Generate token ↗</button></div>
+          </div>
+
+          <div class="wizard-step" id="step6">
+            <div class="wizard-head"><div><span class="step-label">06 — DIGITAL TOKEN</span><h3 data-i18n="tokenTitle">Your procurement pass is ready.</h3></div><span class="big-step">06</span></div>
+            <p class="subtext" data-i18n="tokenText">Keep this token available. Queue movement and travel-aware alerts will update around it.</p>
+            <div class="token-ticket">
+              <div class="ticket-top"><div><small>KRISHIPATH TOKEN</small><strong id="tokenNumber">KP-000000</strong></div><div class="token-state">ACTIVE</div></div>
+              <div class="ticket-body">
+                <div><div><small>FARMER</small><strong id="tokenFarmer">—</strong></div><div><small>CROP</small><strong id="tokenCrop">—</strong></div><div><small>QUANTITY</small><strong id="tokenQty">—</strong></div><div><small>DATE / TIME</small><strong id="tokenDate">—</strong></div><div><small>CENTRE</small><strong id="tokenCentre">—</strong></div><div><small>TRAVEL ALERT</small><strong id="tokenAlert">—</strong></div></div>
+                <div class="qr" id="qrCode"></div>
+              </div>
+              <div class="ticket-bottom"><span>Show QR at the procurement centre</span><span>SMS alerts: ON</span></div>
+            </div>
+            <div class="wizard-actions"><button class="ghost-btn" onclick="resetProcurement()">Start new</button><button class="primary-btn" onclick="showQueue()">View live queue ↗</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="intelligence" id="queue">
+      <div class="section-heading">
+        <div><span class="section-kicker">LIVE INTELLIGENCE</span><h2 data-i18n="queueTitle">The queue moves with you.</h2></div>
+        <p data-i18n="queueText">A ten-slot rolling buffer keeps the next movement ready instead of leaving capacity idle.</p>
+      </div>
+      <div class="intel-grid">
+        <div class="queue-panel">
+          <div class="panel-head"><div><small>QUEUE PULSE</small><h3 id="queueStatusTitle">Waiting for a token</h3></div><span class="live-badge"><i></i> LIVE</span></div>
+          <div class="queue-ring"><div><strong id="queuePosition">—</strong><span>position</span></div></div>
+          <div class="queue-stats"><div><small>FARMERS AHEAD</small><strong id="queueAhead">—</strong></div><div><small>EST. WAIT</small><strong id="waitTime">—</strong></div><div><small>BUFFER</small><strong id="bufferCount">—</strong></div></div>
+          <button class="ghost-btn wide" onclick="refreshQueue()">↻ Refresh live position</button>
+        </div>
+        <div class="alert-panel">
+          <div class="panel-head"><div><small>SMART NOTIFICATIONS</small><h3 data-i18n="alertTitle">Distance changes your heads-up.</h3></div><span class="alert-bolt">✦</span></div>
+          <div class="alert-meter"><span id="alertMeterFill"></span></div>
+          <div class="alert-row"><span>Travel distance</span><strong id="alertDistance">—</strong></div>
+          <div class="alert-row"><span>Estimated travel</span><strong id="alertTravel">—</strong></div>
+          <div class="alert-row"><span>Heads-up before slot</span><strong id="alertMinutes">—</strong></div>
+          <div class="sms-card"><span>SMS</span><div><strong data-i18n="smsTitle">Offline-ready notifications</strong><p id="smsStatus">Token alerts will be available here.</p></div><i>✓</i></div>
+        </div>
+        <div class="buffer-panel">
+          <div class="panel-head"><div><small>DYNAMIC TEN-SLOT BUFFER</small><h3 data-i18n="bufferTitle">10 ready. 11th moves in.</h3></div><span class="buffer-count-big" id="bufferBig">10</span></div>
+          <div class="buffer-slots" id="bufferSlots"></div>
+          <div class="buffer-explain"><span>↳</span><p data-i18n="bufferText">When any active slot closes, the next farmer is automatically pulled into the open position.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="track-section" id="track">
+      <div class="section-heading">
+        <div><span class="section-kicker">PROCUREMENT TRACKER</span><h2 data-i18n="trackTitle">Know exactly where your harvest is.</h2></div>
+        <p data-i18n="trackText">Every milestone stays visible until the final QR confirmation.</p>
+      </div>
+      <div class="tracking-board">
+        <div class="track-head"><div><span class="status-pill" id="trackStatus">NOT STARTED</span><h3 id="trackHeadline">Your journey will appear here.</h3></div><div class="track-id"><small>TOKEN</small><strong id="trackToken">—</strong></div></div>
+        <div class="timeline" id="timeline"></div>
+        <div class="track-footer"><div class="offline-state"><span class="connection-dot"></span><div><strong id="connectionText">Online connection</strong><small>Core journey remains available offline</small></div></div><button class="primary-btn" onclick="confirmProcurement()" id="confirmBtn" disabled>Scan QR & confirm procurement</button></div>
+      </div>
+    </section>
+
+    <section class="offline-section">
+      <div class="offline-art"><div class="signal-ring"></div><div class="signal-ring two"></div><span>⌁</span></div>
+      <div><span class="section-kicker">ALWAYS REACHABLE</span><h2 data-i18n="offlineTitle">No internet? Your journey doesn't disappear.</h2><p data-i18n="offlineText">The token, latest queue information and essential journey details remain available on the device. SMS notifications keep the farmer informed when data connectivity is unavailable.</p></div>
+      <div class="offline-points"><span>✓ Cached journey</span><span>✓ SMS alerts</span><span>✓ Token access</span></div>
+    </section>
+  </main>
+
+  <footer><div class="brand"><span class="brand-mark"><span></span><span></span><span></span></span><span>KrishiPath</span></div><p>Field → Centre → Fair turn.</p><span>© 2026 KrishiPath</span></footer>
+
+  <div class="modal" id="tutorialModal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeTutorial()">×</button>
+      <span class="section-kicker">KRISHIPATH GUIDE</span><h2 id="tutorialTitle">Your journey in five moves.</h2>
+      <div class="tutorial-slide"><div class="tutorial-number" id="tutorialNumber">01</div><div><h3 id="tutorialHead">Register once.</h3><p id="tutorialCopy">Create your farmer profile and begin a connected procurement journey.</p></div></div>
+      <div class="tutorial-dots" id="tutorialDots"></div>
+      <div class="modal-actions"><button class="ghost-btn" onclick="tutorialPrev()">←</button><button class="primary-btn" onclick="tutorialNext()">Next ↗</button></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

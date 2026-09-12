@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KrishiPath — Centre desk</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .desk{max-width:980px;margin:40px auto 80px;padding:0 20px}
+    .desk h1{font-size:42px;margin:8px 0 6px}
+    .desk-lead{color:#66736d;margin-bottom:28px}
+    .desk-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}
+    .desk-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .desk-card{background:#fff;border-radius:22px;padding:22px;box-shadow:0 16px 40px rgba(13,36,27,.08)}
+    .desk-card ol{margin:12px 0 0;padding-left:18px}
+    .desk-card li{margin:8px 0;font-size:13px}
+    .pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#eef5df;font-size:10px;font-weight:800}
+    @media(max-width:800px){.desk-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark"><span></span><span></span><span></span></span><span>KrishiPath desk</span></a>
+    <a class="primary-btn small" href="/">Farmer journey</a>
+  </header>
+  <div class="desk">
+    <span class="section-kicker">PROCUREMENT CENTRE</span>
+    <h1>10-slot buffer desk</h1>
+    <p class="desk-lead">Complete the farmer at the window. The 11th waiting farmer is pulled into the live buffer immediately, and SMS goes out even if they are offline.</p>
+    <div class="desk-actions">
+      <select id="centre"></select>
+      <button class="primary-btn" onclick="completeNext()">Complete current slot ↗</button>
+      <button class="ghost-btn" onclick="refresh()">↻ Refresh</button>
+    </div>
+    <div class="desk-grid">
+      <div class="desk-card">
+        <small>LIVE BUFFER (10)</small>
+        <h3 id="bufferTitle">Loading…</h3>
+        <ol id="bufferList"></ol>
+      </div>
+      <div class="desk-card">
+        <small>WAITING — 11TH AUTO-TRIGGERS</small>
+        <h3 id="waitTitle">—</h3>
+        <ol id="waitList"></ol>
+      </div>
+    </div>
+    <p id="flash" class="subtext"></p>
+  </div>
+  <script>
+    const API = "";
+    async function refresh(){
+      const centreId = document.getElementById("centre").value || "greenfield";
+      const s = await (await fetch(API+"/api/schedule?centreId="+centreId)).json();
+      document.getElementById("bufferTitle").textContent = s.buffer.loaded+"/10 loaded";
+      document.getElementById("waitTitle").textContent = s.buffer.waiting + " waiting · 11th: " + (s.buffer.next ? s.buffer.next.token : "none");
+      document.getElementById("bufferList").innerHTML = (s.buffer.farmers||[]).map(f=>`<li><strong>${f.position}. ${f.name}</strong> — ${f.token} <span class="pill">${f.zone}</span></li>`).join("") || "<li>Empty</li>";
+      const q = await (await fetch(API+"/api/queue/"+centreId)).json();
+      document.getElementById("waitList").innerHTML = q.queue.filter(x=>!x.inBuffer).map(f=>`<li>${f.position}. ${f.name} — ${f.token}</li>`).join("") || "<li>No overflow queue</li>";
+    }
+    async function completeNext(){
+      const centreId = document.getElementById("centre").value || "greenfield";
+      const r = await (await fetch(API+"/api/operator/complete-next",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({centreId})})).json();
+      document.getElementById("flash").textContent = r.completed
+        ? `Completed ${r.completed}. Promoted 11th: ${r.promoted || "nobody waiting"}.`
+        : "Queue empty.";
+      refresh();
+    }
+    fetch(API+"/api/centres").then(r=>r.json()).then(d=>{
+      document.getElementById("centre").innerHTML = d.centres.map(c=>`<option value="${c.id}">${c.name}</option>`).join("");
+      refresh();
+    });
+  </script>
+</body>
+</html>
