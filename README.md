@@ -1,4 +1,4 @@
-s# KrishiPath Backend
+# KrishiPath Backend
 
 Node.js + Express + MySQL backend for the supplied KrishiPath frontend.
 
